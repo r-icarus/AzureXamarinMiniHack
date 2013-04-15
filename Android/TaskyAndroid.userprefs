@@ -1,0 +1,32 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../iOS/TaskyiOS/Model/TaskManager.cs">
+    <Files>
+      <File FileName="TaskyAndroid/Screens/HomeScreen.cs" Line="41" Column="58" />
+      <File FileName="../iOS/TaskyiOS/Model/TaskManager.cs" Line="24" Column="28" />
+      <File FileName="../iOS/TaskyiOS/Model/Task.cs" Line="10" Column="28" />
+      <File FileName="TaskyAndroid/Screens/TaskDetailsScreen.cs" Line="25" Column="24" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>asyncTask.Result</Value>
+        </State>
+      </Pad>
+      <Pad Id="ConnectionManagerPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.TaskyAndroid AndroidDeviceId-Debug="014E28A21600B007" />
+</Properties>

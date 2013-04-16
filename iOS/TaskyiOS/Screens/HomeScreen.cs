@@ -5,6 +5,7 @@ using MonoTouch.UIKit;
 using MonoTouch.Dialog;
 using Tasky.Core;
 using Tasky.ApplicationLayer;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace Tasky.Screens {
 
@@ -14,6 +15,8 @@ namespace Tasky.Screens {
 	public class HomeScreen : DialogViewController {
 		// 
 		List<Task> tasks;
+		MobileServiceUser user;
+
 		
 		// MonoTouch.Dialog individual TaskDetails view (uses /AL/TaskDialog.cs wrapper class)
 		BindingContext context;
@@ -30,6 +33,23 @@ namespace Tasky.Screens {
 		{
 			NavigationItem.SetRightBarButtonItem (new UIBarButtonItem (UIBarButtonSystemItem.Add), false);
 			NavigationItem.RightBarButtonItem.Clicked += (sender, e) => { ShowTaskDetails(new Task()); };
+			NavigationItem.SetLeftBarButtonItem(new UIBarButtonItem("Login",UIBarButtonItemStyle.Bordered,LoginHandler), false);
+		}
+
+		public void LoginHandler(object sender, EventArgs e) 
+		{
+			TaskManager.MobileService.LoginAsync(this, MobileServiceAuthenticationProvider.Twitter).ContinueWith(t => 
+			                                                                                                     {
+				BeginInvokeOnMainThread (() => 
+				                         {
+					user = t.Result;
+					var alert = new UIAlertView("Welcome!",  
+					                            "You are now logged in and your user id is " 
+					                            + user.UserId, null, "OK");     
+					TaskManager.MobileService.CurrentUser = user;
+					alert.Show ();
+				});
+			});		
 		}
 		
 		protected void ShowTaskDetails(Task task)
@@ -61,7 +81,7 @@ namespace Tasky.Screens {
 			base.ViewWillAppear (animated);
 			
 			// reload/refresh
-			PopulateTable();			
+			PopulateTable();
 		}
 		
 		protected void PopulateTable()

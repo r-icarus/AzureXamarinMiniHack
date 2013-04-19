@@ -4,6 +4,7 @@ using Android.Content;
 using Android.OS;
 using Android.Widget;
 using Tasky.Core;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace TaskyAndroid.Screens {
 	/// <summary>
@@ -14,7 +15,10 @@ namespace TaskyAndroid.Screens {
 		protected Adapters.TaskListAdapter taskList;
 		protected IList<Task> tasks;
 		protected Button addTaskButton = null;
+		protected Button loginButton = null;
 		protected ListView taskListView = null;
+
+		MobileServiceUser user = null;
 		
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -24,13 +28,32 @@ namespace TaskyAndroid.Screens {
 			SetContentView(Resource.Layout.HomeScreen);
 
 			//Find our controls
-			taskListView = FindViewById<ListView> (Resource.Id.lstTasks);
-			addTaskButton = FindViewById<Button> (Resource.Id.btnAddTask);
+			taskListView 	= FindViewById<ListView> (Resource.Id.lstTasks);
+			addTaskButton 	= FindViewById<Button> (Resource.Id.btnAddTask);
+			loginButton		= FindViewById<Button> (Resource.Id.btnLogin);	
 
 			// wire up add task button handler
 			if(addTaskButton != null) {
 				addTaskButton.Click += (sender, e) => {
 					StartActivity(typeof(TaskDetailsScreen));
+				};
+			}
+
+			// wire up add task button handler
+			if(loginButton != null) {
+				loginButton.Click += (sender, e) => {
+					TaskManager.MobileService.LoginAsync(this, MobileServiceAuthenticationProvider.Twitter).ContinueWith(t =>
+					                                                                                                     {
+						RunOnUiThread (() =>
+						                         {
+							user = t.Result;
+							var toast = Toast.MakeText(this.ApplicationContext,
+							                           "You are now logged in and your user id is " + user.UserId,
+							                           ToastLength.Short);							                           							
+							TaskManager.MobileService.CurrentUser = user;
+							toast.Show();
+						});
+					});					
 				};
 			}
 			
